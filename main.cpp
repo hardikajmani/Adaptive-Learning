@@ -1,11 +1,17 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <stdlib.h>
+#include <algorithm>
 
 using namespace std;
 
-string l1[10] = {"job","jam","jaw","jug","jog","joy","max","cat","bat","sat
-}, l2[10] = {}, l3[10]= {};
+string words[3][10] = {{"job","jam","jaw","jug","jog","joy","max","cat","bat","sat"},
+                       {"jazz","buzz","fizz","quiz","jump","joke","java","fuji","bowl","fowl"},
+                       {"pizza","jumpy","quick","taxes","juices","zombi","unzip","crazy","field","video"}} ;
+
+string printString(int , int );
+void displayResult(int , int , string );
 
 
 class User{
@@ -24,8 +30,8 @@ public:
         cout << "\t\t\t\tPlease enter your roll no: ";
         cin >> rollNo;
     }
-    void putName(){
-        cout << name;
+    string putName(){
+        return name;
     }
     int putRoll(){
         return rollNo;
@@ -54,20 +60,23 @@ public:
 
 int main()
 {
-    int level = 1,x = 0, flag = 0;
+    int level = 1,x = 0, flag = 0,n = 0;
     string inpString, actString;
     User u1;
+
     cout << "\n\n\n\n\n\n\n\t\t\t\t-----------Welcome---------" << endl;
     u1.getDet();
     system("pause");
     system("cls");
     for(int i = 1; i<=10; i++){
-
+        n = rand() %10;
         cout << "Q" << i << ". ";
-        inpString = printString(level);
-        cout << inpString << "\nAns. ";
+        printString(level,n);
         getline(cin, actString);
-        x = strcmp(inpString,actString);
+        if(words[level-1][n] == actString)
+            x = 1;
+        else
+            x = 0;
         if(x){
 
             if(flag < 2){
@@ -99,15 +108,15 @@ int main()
         }
 
     }
-    displayResult(score,level,name);
+    displayResult(u1.retScore(),level,u1.putName());
     return 0;
 }
 
 void displayResult(int s, int l, string n){
 
     system("cls");
-    cout << "\n -------- REPORT ----------"
-         << n << " has successfully completed the test with a score of: " << score
+    cout << "\n -------- REPORT ----------\n"
+         << n << " has successfully completed the test with a score of: " << s
          << " with level: " << l;
     switch(l){
 
@@ -117,13 +126,16 @@ void displayResult(int s, int l, string n){
                 break;
         case 3: cout <<"\n Well Done. You are well versed with the topic. You may skip all the next classes of this topic, and don't worry about the attendance. :P";
                 break;
-        default: cout << "\nError. This level does not exist!."
+        default: cout << "\nError. This level does not exist!.";
 
     }
     cout << "\nThank You for taking the quiz";
 }
 
-string printString(int l){
+string s;
 
-    int n = rand() %10;
+string printString(int l, int n){
+    s = words[l-1][n];
+    random_shuffle(s.begin(),s.end());
+    cout << s;
 }
