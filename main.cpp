@@ -3,6 +3,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <algorithm>
+#include <time.h>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ string words[3][10] = {{"job","jam","jaw","jug","jog","joy","max","cat","bat","s
                        {"jazz","buzz","fizz","quiz","jump","joke","java","fuji","bowl","fowl"},
                        {"pizza","jumpy","quick","taxes","juices","zombi","unzip","crazy","field","video"}} ;
 
-string printString(int , int );
+void printString(int , int );
 void displayResult(int , int , string );
 
 
@@ -66,17 +67,23 @@ int main()
 
     cout << "\n\n\n\n\n\n\n\t\t\t\t-----------Welcome---------" << endl;
     u1.getDet();
-    system("pause");
     system("cls");
-    for(int i = 1; i<=10; i++){
+    for(int i = 0; i<10; i++){
+        srand(time(NULL));
         n = rand() %10;
-        cout << "Q" << i << ". ";
+        cout << "Q" << i+1 << ". ";
         printString(level,n);
-        getline(cin, actString);
+        cout<<endl;
+        cin >> actString;
         if(words[level-1][n] == actString)
             x = 1;
         else
             x = 0;
+
+            if(x)
+            cout<<"\t\tcorrect\n";
+            else
+            cout<<"\t\tincorrect\n";
         if(x){
 
             if(flag < 2){
@@ -109,15 +116,18 @@ int main()
 
     }
     displayResult(u1.retScore(),level,u1.putName());
+    cout << endl << endl;
+    system("pause");
     return 0;
 }
 
 void displayResult(int s, int l, string n){
 
     system("cls");
-    cout << "\n -------- REPORT ----------\n"
+    cout << "\t";
+    cout << "\t\t\t\t\n -------------- REPORT ---------------\n"
          << n << " has successfully completed the test with a score of: " << s
-         << " with level: " << l;
+         << " with level: " << l << endl;
     switch(l){
 
         case 1: cout << "\n You need to improve. We strongly recommend to attend all the next classes of this topic.";
@@ -129,13 +139,11 @@ void displayResult(int s, int l, string n){
         default: cout << "\nError. This level does not exist!.";
 
     }
-    cout << "\nThank You for taking the quiz";
+    cout << "\n\n\t\t\t\tThank You for taking the quiz";
 }
 
-string s;
-
-string printString(int l, int n){
-    s = words[l-1][n];
+void printString(int l, int n){
+   string s = words[l-1][n];
     random_shuffle(s.begin(),s.end());
     cout << s;
 }
