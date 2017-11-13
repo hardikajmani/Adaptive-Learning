@@ -4,15 +4,17 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <time.h>
+#include <windows.h>
 
 using namespace std;
 
-string words[3][10] = {{"job","jam","jaw","jug","jog","joy","max","cat","bat","sat"},
-                       {"jazz","buzz","fizz","quiz","jump","joke","java","fuji","bowl","fowl"},
-                       {"pizza","jumpy","quick","taxes","juices","zombi","unzip","crazy","field","video"}} ;
+string words[30][2] = {{"job","work"},{"jam","traffic"},{"jaw","Teeth"},{"jug","Water Container"},{"jog","Exercise"},{"joy","Happiness"},{"max","Full"},{"cat","Pet"},{"bat","Cricket"},{"sat","Sit"},
+                       {"jazz","Music"},{"buzz","Bees"},{"fizz","Soda"},{"quiz","Test"},{"jump","Height"},{"joke","Laugh"},{"java","language"},{"fuji","Mountain"},{"bowl","Rice"},{"wolf","Animal"},
+                       {"pizza","Dominos"},{"jumpy","Bounce"},{"quick","Fast"},{"taxes","GST"},{"juices","Fruits"},{"zombi","Walking Dead"},{"unzip","Zip"},{"crazy","Mad"},{"field","Crops"},{"video","Movie"}} ;
 
 void printString(int , int );
 void displayResult(int , int , string );
+void welcomePage();
 
 
 class User{
@@ -46,7 +48,7 @@ public:
                     break;
             case 3: score -= 1;
                     break;
-            case 4: score -= 2;
+            case 4: score -= 4;
                     break;
             default : "\n Wrong code";
         }
@@ -61,32 +63,41 @@ public:
 
 int main()
 {
-    int level = 1,x = 0, flag = 0,n = 0;
+    int level = 1,x = 0, flag = 0,n = 0,arr[30] = {-1};
     string inpString, actString;
     User u1;
 
-    cout << "\n\n\n\n\n\n\n\t\t\t\t-----------Welcome---------" << endl;
+    welcomePage();
+    cout << "\n\n\n\n\n\n\n\t\t\t\t-----------Welcome-----------" << endl;
     u1.getDet();
     system("cls");
     for(int i = 0; i<10; i++){
-        srand(time(NULL));
+        start:
+        n = 0;
+        srand(time(NULL) + (rand()%100));
         n = rand() %10;
-        cout << "Q" << i+1 << ". ";
+        if(level != 1)
+                n += ((level-1)*10);
+        for(int j = 0; j<=i; j++){
+            if(arr[j] == n)
+                goto start;
+        }
+        arr[i] = n;
+        cout << "\t\tQ" << i+1 << ". ";
+
         printString(level,n);
+        cout << "\t\t(" << words[n][1] << ")";
         cout<<endl;
+        cout << "\t\t->";
         cin >> actString;
-        if(words[level-1][n] == actString)
+        if(words[n][0] == actString)
             x = 1;
         else
             x = 0;
 
-            if(x)
-            cout<<"\t\tcorrect\n";
-            else
-            cout<<"\t\tincorrect\n";
         if(x){
-
-            if(flag < 2){
+            cout<<"\t\t\t\tcorrect\n\n";
+            if(flag < 1){
                 flag++;
                 u1.calcScore(2);
             }
@@ -94,7 +105,9 @@ int main()
 
                 if(level != 3){
                     level++;
+                    cout<<"\n\t\t\t\tKeep Going.\n\n";
                     u1.calcScore(1);
+                    flag = 0;
                 }
 
             }
@@ -102,10 +115,11 @@ int main()
         }
 
         else{
-
+            cout<<"\t\t\t\tincorrect\n\n";
             flag = 0;
             if(level != 1){
                 level--;
+                cout<<"\n\t\t\t\tAnswer Carefully.\n\n";
                 u1.calcScore(3);
             }
             else{
@@ -125,16 +139,16 @@ void displayResult(int s, int l, string n){
 
     system("cls");
     cout << "\t";
-    cout << "\t\t\t\t\n -------------- REPORT ---------------\n"
-         << n << " has successfully completed the test with a score of: " << s
+    cout << "\n\t\t\t\t -------------- REPORT ---------------\n\t\t"
+         << "\n\n\t"<< n << " has successfully completed the test with a score of: " << s
          << " with level: " << l << endl;
     switch(l){
 
-        case 1: cout << "\n You need to improve. We strongly recommend to attend all the next classes of this topic.";
+        case 1: cout << "\n\n\n\t\t You need to improve.\n\t\t We strongly recommend to attend all the next classes of this topic.";
                 break;
-        case 2: cout << "\n Good. You should take the quiz again to improve your level";
+        case 2: cout << "\n\n\n\t\t Good.\n\t\t You should take the quiz again to improve your level";
                 break;
-        case 3: cout <<"\n Well Done. You are well versed with the topic. You may skip all the next classes of this topic, and don't worry about the attendance. :P";
+        case 3: cout <<"\n\n\n\t\t Well Done.\n\t\t You are well versed with the topic. You may skip all the next classes of this topic, and don't worry about the attendance. :P";
                 break;
         default: cout << "\nError. This level does not exist!.";
 
@@ -143,7 +157,43 @@ void displayResult(int s, int l, string n){
 }
 
 void printString(int l, int n){
-   string s = words[l-1][n];
+    string s = words[n][0];
+    st:
     random_shuffle(s.begin(),s.end());
-    cout << s;
+    if(s == words[n][0])
+        goto st;
+    for(int i = 0; i<s.length(); i++)
+        cout << s[i] << "  ";
+}
+
+void welcomePage(){
+
+    string s1 = "ADAPTIVE LEARNING", s2 = "  JUMBLED WORDS", s3 = "- Handcrafted  By ", s4 = "  Hardik Ajmani ;)";
+    cout << "\n\n\n\n\t\t\t\t";
+    for(int i = 0; i < s1.length(); i++){
+        Sleep(100);
+        cout << " " << s1[i];
+    }
+    Sleep(500);
+    cout << "\n\t\t\t\t";
+    for(int i = 0; i < s2.length(); i++){
+        Sleep(100);
+        cout << " " << s2[i];
+    }
+    Sleep(500);
+    cout << "\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t";
+    for(int i = 0; i < s3.length(); i++){
+        Sleep(50);
+        cout << s3[i];
+    }
+    Sleep(1000);
+    cout << "\n\n\t\t\t\t\t\t\t\t\t";
+    for(int i = 0; i < s4.length(); i++){
+        Sleep(70);
+        cout << s4[i];
+    }
+    Sleep(1500);
+    cout << "\n\n\n";
+    system("pause");
+    system("cls");
 }
