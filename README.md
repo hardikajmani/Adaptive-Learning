@@ -16,5 +16,7 @@ Code: So what does the code do.
   4) It will decrease the level on each incorrect answer.
   5) A final step with score and further action is printed.
   
-Scope: 1) Combined with the power of Machine Learning and Big Data this can be applied to various evaluation system.
-       2) Further research can be done on making it more effecient and practically applicable. 
+Scope:  1) Combined with the power of Machine Learning and Big Data this can be applied to various evaluation system.
+        2) Further research can be done on making it more effecient and practically applicable. 
+        
+p.s. - Find pictures of actual application in screenshots folder
